@@ -6,6 +6,9 @@
 <link rel="stylesheet" href="css/micss.css">
 <script>
 
+  var articulos = ["camiseta", "pantalón", "zapatillas", "calcetines"];
+  // var articulos = new Array("camiseta", "pantalón", "zapatillas", "calcetines");
+  // var articulos = []; -> Array vacío
 	
 </script>
 </head>
@@ -21,10 +24,9 @@
       <h1>Manejando Arrays</h1>
       <script>
 	  
-
-		
-		
-		
+        document.write("<p> El primer artículo es <strong>");
+        document.write(articulos[0] + "</p>");
+        alert("Cantidad de artículos: " + articulos.length);
 		
 	  </script>
      </div>
