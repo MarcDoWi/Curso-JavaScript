@@ -8,14 +8,15 @@
                 if (!array) {
                     callback(new Error("No existe el array"), null);
                 } else {
-                    array.push(data);
-                    callback(null, array);  
+                    setTimeout(function() {
+                        array.push(data);
+                        callback(null, array);
+                    }, 1000);
                 }
             }
 
             let array = [1, 2, 3];
             addToArray(4, array, function (err, array) {
-                console.log(array);
                 alert(array);
             })
         </script>

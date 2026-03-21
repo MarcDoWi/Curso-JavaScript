@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Tutorial 7 - Promises</title>
+        <script>
+            function addToArray(data, array) {
+                const promise = new Promise(function(resolve, reject){
+                    setTimeout(function() {
+                        if (!array) {
+                           reject(new Error("No existe el array"));
+                        } else {
+                            array.push(data);
+                            resolve(array);
+                        }
+                    }, 1000);
+                })
+                return promise;
+            }
+
+            let array = [1, 2, 3];
+            addToArray(4)
+                .then(() => {
+                    return addToArray(5, array);
+                    alert(array);
+                })
+                .catch((err) => alert(err.message));
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
