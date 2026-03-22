@@ -1,0 +1,14 @@
+class PincheCocina {
+    constructor() {}
+    
+    sacarPizzaDelHorno(horno, mesaPizzasCocinadas) {
+        const posicionPizzaCocinada = horno.pizzasEnHorno.findIndex(pizza => pizzaCocinada);
+        if (posicionPizzaCocinada != -1) {
+            const pizzaCocinada = horno.pizzasEnHorno.splice(index, 1)[0];
+            mesaPizzasCocinadas.push(pizzaCocinada);
+            console.log(`El pinche pendejo ha sacado la pizza ${pizzaCocinada.idPizza} del horno.`);
+        } else {
+            console.log("ERROR - EL PINCHE PENDEJO NO HA ENCONTRADO NINGUNA PIZZA COCINADA!!!!");
+        }
+    }
+}
