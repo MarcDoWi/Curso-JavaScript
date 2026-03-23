@@ -20,10 +20,14 @@
 
 
 /*
-    El problema actual es que los cocineros ponen las pizzas directamente en el horno o en la mesa, sin mirar si hay pizzas crudas esperando
-    y que nadie mete las pizzas de la mesa de pizzas crudas al horno.
+    Ahora los mensajes descriptivos son mejores.
+    Ahora se tienen en cuenta las pizzas que hay esperando para meterlas al horno, hay un máximo de pizzas que pueden haber en esa mesa definido por una constante global.
+        si se supera el máximo los cocineros esperaran a que haya un hueco para dejar la pizza que han hecho.
+    Ahora se borra la pizza del pizzero en cuanto la pone en el horno o la mesa de pizzas crudas.
 
-    Otras cosas: Estaría bien mostrar mensajes de cuantas pizzas hay en el horno y en la mesa de pizzas crudas cada vez que se intenta
-    meter una pizza en el horno
-    Estaría bien mostrar la cantidad de pizzas que hay cocinadas.
+    Falta añadir una cola de cocineros para evitar que se cuelen mientras uno espera a que haya hueco para dejar la pizza.
+    Falta que el horno trabaje.
+    Falta que el horno avise cuando una pizza este hecha.
+    Falta que el pinche avise cuando quita una pizza de la mesa.
+    Falta el código del main.
 */
