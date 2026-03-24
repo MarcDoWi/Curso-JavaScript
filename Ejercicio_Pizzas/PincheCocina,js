@@ -1,37 +1,49 @@
-class PincheCocina {
+import EventEmitter from "events";
+
+class PincheCocina extends EventEmitter{
     constructor() {}
     
     sacarPizzaDelHorno(horno, mesaPizzasCocinadas) {
-        const posicionPizzaCocinada = horno.pizzasEnHorno.findIndex(pizza => pizzaCocinada);
+        const posicionPizzaCocinada = horno.pizzasEnHorno.findIndex(pizza => pizza.cocinada);
         if (posicionPizzaCocinada != -1) {
-            const pizzaCocinada = horno.pizzasEnHorno.splice(index, 1)[0];
+            const pizzaCocinada = horno.pizzasEnHorno.splice(posicionPizzaCocinada, 1)[0];
             mesaPizzasCocinadas.push(pizzaCocinada);
-            console.log(`El pinche pendejo ha sacado la pizza ${pizzaCocinada.idPizza} del horno. Hay ${mesaPizzasCocinadas.lenght} pizzas cocinadas.`);
+            console.log(`El pinche pendejo ha sacado la pizza ${pizzaCocinada.idPizza} del horno. Hay ${mesaPizzasCocinadas.length} pizzas cocinadas.`);
         } else {
             console.log("ERROR - EL PINCHE PENDEJO NO HA ENCONTRADO NINGUNA PIZZA COCINADA!!!!");
         }
     }
 
     meterPizzaCrudaAlHorno(horno, mesaPizzasCrudas) {
-        if (mesaPizzasCrudas.lenght > 0) {
-            if (horno.pizzasCabenEnHorno > horno.pizzasEnHorno) {
+        if (mesaPizzasCrudas.length > 0) {
+            if (horno.pizzasCabenEnHorno > horno.pizzasEnHorno.length) {
                 let pizzaCruda = mesaPizzasCrudas.shift();
-                horno.pizzasEnHorno.push(pizzaCruda) ;
-                console.log(`Como hay ${mesaPizzasCrudas.lenght} pizzas esperando y en el horno hay ${horno.pizzasEnHorno} y caben ${horno.pizzasCabenEnHorno} el pinche ha metido una pizza en el horno.`)
+                horno.pizzasEnHorno.push(pizzaCruda);
+                horno.cocinarPizza(pizzaCruda);
+                console.log(`Como hay ${mesaPizzasCrudas.length} pizzas esperando y en el horno hay ${horno.pizzasEnHorno.length} y caben ${horno.pizzasCabenEnHorno} el pinche ha metido una pizza en el horno.`)
+                this.emit("pizzaCrudaMetidaAlHorno");
             } else {
-                console.log(`Aunque hay ${mesaPizzasCrudas.lenght} pizzas esperando pero en el horno hay ${horno.pizzasEnHorno} y caben ${horno.pizzasCabenEnHorno} el horno esta lleno y el pinche no ha metido ninguna al horno.`)
+                console.log(`Aunque hay ${mesaPizzasCrudas.length} pizzas esperando pero en el horno hay ${horno.pizzasEnHorno.length} y caben ${horno.pizzasCabenEnHorno} el horno esta lleno y el pinche no ha metido ninguna al horno.`)
             }
         } else {
-            console.log(`Como en la mesa de pizzas crudas hay ${mesaPizzasCrudas.lenght} pizzas, el pinche no ha metido ninguna pizza al horno.`);
+            console.log(`Como en la mesa de pizzas crudas hay ${mesaPizzasCrudas.length} pizzas, el pinche no ha metido ninguna pizza al horno.`);
         }
     }
 
-    trabajar() {
+    async trabajar(horno, mesaPizzasCrudas, mesaPizzasCocinadas) {
         while (true){
+            // Esperamos a recibir el aviso "pizzaCocinada" del horno. Mientras, podrá hacer otras cosas
+            await new Promise((resolve) => {
+                horno.on("pizzaCocinada", () => {
+                    console.log("👂 [PINCHE]: ¡Oído! Voy a sacar la pizza.");
+                    this.sacarPizzaDelHorno(horno, mesaPizzasCocinadas);
+                    this.esperar(1);
+                });
+            });
+
             this.meterPizzaCrudaAlHorno(horno, mesaPizzasCrudas);
-            esperar(1);
-            this.sacarPizzaDelHorno(horno, mesaPizzasCocinadas);
-            this.esperar(1);
+
+            await this.esperar(1);
         }
     }
 

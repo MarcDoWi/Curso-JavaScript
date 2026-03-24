@@ -25,9 +25,10 @@
         si se supera el máximo los cocineros esperaran a que haya un hueco para dejar la pizza que han hecho.
     Ahora se borra la pizza del pizzero en cuanto la pone en el horno o la mesa de pizzas crudas.
 
-    Falta añadir una cola de cocineros para evitar que se cuelen mientras uno espera a que haya hueco para dejar la pizza.
-    Falta que el horno trabaje.
-    Falta que el horno avise cuando una pizza este hecha.
-    Falta que el pinche avise cuando quita una pizza de la mesa.
+    Ahora el horno emite un aviso cuando una pizza esta cocinada.
+    Corregidos multiples errores en la clase PincheCocina.
+    Ahora el pinche avisa cuando mete una pizza al horno.
+
+    Falta que el pinche avise cuando quita una pizza de la mesa. => Ahora avisa, falta que los cocineros escuchen
     Falta el código del main.
 */

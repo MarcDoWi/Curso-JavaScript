@@ -1,4 +1,5 @@
     const MAXIMO_PIZZAS_CRUDAS_ESPERANDO = 3;
+    const colaPizzerosEsperando = new Set();
 
 /*
 Observaciones:
@@ -40,12 +41,14 @@ Observaciones:
             } else {
                 while (true) {
                     if (mesaPizzasCrudas.length >= MAXIMO_PIZZAS_CRUDAS_ESPERANDO) {
+                        colaPizzerosEsperando.add(this);
                         console.log(`Como ${this.nombre} ve que en la mesa de pizzas crudas hay ${mesaPizzasCrudas.length} y caben ${MAXIMO_PIZZAS_CRUDAS_ESPERANDO} se pone a esperar a que haya hueco.`)
                         await this.esperar(3);
                         continue;
                     }
                     break;  
                 }
+                colaPizzerosEsperando.delete(this);
                 mesaPizzasCrudas.push(this.pizza);
                 console.log(`Como hay pizzas en la mesa de pizzas crudas, ${this.nombre} ha puesto la pizza ${this.pizza.idPizza} en la mesa de pizzas crudas. Hay ${horno.pizzasEnHorno} pizzas en el horno y caben ${horno.pizzasCabenEnHorno} pizzas.`);
                 this.pizza = null;
