@@ -1,7 +1,9 @@
 import EventEmitter from "events";
 
-class PincheCocina extends EventEmitter{
-    constructor() {}
+export default class PincheCocina extends EventEmitter{
+    constructor() {
+        super();
+    }
     
     sacarPizzaDelHorno(horno, mesaPizzasCocinadas) {
         const posicionPizzaCocinada = horno.pizzasEnHorno.findIndex(pizza => pizza.cocinada);

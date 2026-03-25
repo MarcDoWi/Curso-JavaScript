@@ -1,3 +1,6 @@
+    import Horno from "./Horno.js";
+    import Pizzero from "./Pizzero.js";
+    import PincheCocina from "./PincheCocina.js";
 
     /*
     Los cocineros preparan masa para 1 pizza cada uno.
@@ -10,25 +13,19 @@
         El pinche de cocina dejará la pizza cocinada que haya sacado encima de la mesa de pizzas cocinadas (Array de pizzas).
     */
 
-    const mesaPizzasCrudas = [];
-    const mesaPizzasCocinadas = [];
-    const horno = new Horno(3);
-    const pizzero1 = new Pizzero("Marc", 5);
-    const pizzero2 = new Pizzero("Koops", 11);
-    const PincheCocina = new PincheCocina()
+    let mesaPizzasCrudas = [];
+    let mesaPizzasCocinadas = [];
+    let horno = new Horno(3);
+    let pizzero1 = new Pizzero("Marc", 5);
+    let pizzero2 = new Pizzero("Koops", 11);
+    let pincheCocina = new PincheCocina()
 
+    pizzero1.trabajar(horno, mesaPizzasCrudas);
+    pizzero2.trabajar(horno, mesaPizzasCrudas);
+    pincheCocina.trabajar(horno, mesaPizzasCrudas, mesaPizzasCocinadas);
 
 
 /*
-    Ahora los mensajes descriptivos son mejores.
-    Ahora se tienen en cuenta las pizzas que hay esperando para meterlas al horno, hay un máximo de pizzas que pueden haber en esa mesa definido por una constante global.
-        si se supera el máximo los cocineros esperaran a que haya un hueco para dejar la pizza que han hecho.
-    Ahora se borra la pizza del pizzero en cuanto la pone en el horno o la mesa de pizzas crudas.
-
-    Ahora el horno emite un aviso cuando una pizza esta cocinada.
-    Corregidos multiples errores en la clase PincheCocina.
-    Ahora el pinche avisa cuando mete una pizza al horno.
-
-    Falta que el pinche avise cuando quita una pizza de la mesa. => Ahora avisa, falta que los cocineros escuchen
-    Falta el código del main.
+    Falta que el pinche avise cuando quita una pizza de la mesa. => Ahora avisa, falta que los cocineros escuchen.
+    Por algún motivo parece que el horno no cocina las pizzas y el Pinche no trabaja.
 */

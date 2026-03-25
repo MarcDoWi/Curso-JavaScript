@@ -1,4 +1,4 @@
-class Pizza {
+export default class Pizza {
     static numPizza = 0;
 
     constructor() {
