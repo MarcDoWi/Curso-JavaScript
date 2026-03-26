@@ -1,5 +1,6 @@
     import Horno from "./Horno.js";
     import Pizzero from "./Pizzero.js";
+    import colaPizzerosEsperando from "./Pizzero.js";
     import PincheCocina from "./PincheCocina.js";
 
     /*
@@ -22,7 +23,7 @@
 
     pizzero1.trabajar(horno, mesaPizzasCrudas);
     pizzero2.trabajar(horno, mesaPizzasCrudas);
-    pincheCocina.trabajar(horno, mesaPizzasCrudas, mesaPizzasCocinadas);
+    pincheCocina.trabajar(horno, mesaPizzasCrudas, mesaPizzasCocinadas, colaPizzerosEsperando);
 
 
 /*

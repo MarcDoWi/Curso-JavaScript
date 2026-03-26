@@ -16,14 +16,19 @@ export default class PincheCocina extends EventEmitter{
         }
     }
 
-    meterPizzaCrudaAlHorno(horno, mesaPizzasCrudas) {
+    meterPizzaCrudaAlHorno(horno, mesaPizzasCrudas, colaPizzerosEsperando) {
         if (mesaPizzasCrudas.length > 0) {
             if (horno.pizzasCabenEnHorno > horno.pizzasEnHorno.length) {
                 let pizzaCruda = mesaPizzasCrudas.shift();
                 horno.pizzasEnHorno.push(pizzaCruda);
                 horno.cocinarPizza(pizzaCruda);
-                console.log(`Como hay ${mesaPizzasCrudas.length} pizzas esperando y en el horno hay ${horno.pizzasEnHorno.length} y caben ${horno.pizzasCabenEnHorno} el pinche ha metido una pizza en el horno.`)
-                this.emit("pizzaCrudaMetidaAlHorno");
+                if (colaPizzerosEsperando.length > 0) {
+                    siguientePizzero = colaPizzerosEsperando.shift();
+                    console.log(`Como hay ${mesaPizzasCrudas.length} pizzas esperando y en el horno hay ${horno.pizzasEnHorno.length} y caben ${horno.pizzasCabenEnHorno} el pinche ha metido una pizza en el horno. Avisando a ${siguientePizzero.nombre}.`);
+                    siguientePizzero.emit("pizzaCrudaMetidaAlHorno");
+                } else {
+                    console.log(`Como hay ${mesaPizzasCrudas.length} pizzas esperando y en el horno hay ${horno.pizzasEnHorno.length} y caben ${horno.pizzasCabenEnHorno} el pinche ha metido una pizza en el horno. No hay cocineros esperando ${colaPizzerosEsperando.length}`);
+                }
             } else {
                 console.log(`Aunque hay ${mesaPizzasCrudas.length} pizzas esperando pero en el horno hay ${horno.pizzasEnHorno.length} y caben ${horno.pizzasCabenEnHorno} el horno esta lleno y el pinche no ha metido ninguna al horno.`)
             }
@@ -32,7 +37,7 @@ export default class PincheCocina extends EventEmitter{
         }
     }
 
-    async trabajar(horno, mesaPizzasCrudas, mesaPizzasCocinadas) {
+    async trabajar(horno, mesaPizzasCrudas, mesaPizzasCocinadas, colaPizzerosEsperando) {
         while (true){
             // Esperamos a recibir el aviso "pizzaCocinada" del horno. Mientras, podrá hacer otras cosas
             await new Promise((resolve) => {
@@ -43,7 +48,7 @@ export default class PincheCocina extends EventEmitter{
                 });
             });
 
-            this.meterPizzaCrudaAlHorno(horno, mesaPizzasCrudas);
+            this.meterPizzaCrudaAlHorno(horno, mesaPizzasCrudas, colaPizzerosEsperando);
 
             await this.esperar(1);
         }
