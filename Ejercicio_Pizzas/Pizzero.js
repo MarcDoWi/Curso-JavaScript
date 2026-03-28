@@ -24,7 +24,7 @@ Observaciones:
 
         async meter_pizza_en_horno(horno, mesaPizzasCrudas){
             // Mesa pizzas crudas llena?
-            const liberarTurno = await turnoMutexCocinea.lock();    
+            const esperarTurno = await turnoMutexCocinea.lock();    
             if (mesaPizzasCrudas.length >= MAXIMO_PIZZAS_CRUDAS_ESPERANDO) {
                 console.log(`Como la mesa de pizzas crudas esta llena (caben ${MAXIMO_PIZZAS_CRUDAS_ESPERANDO} y hay ${mesaPizzasCrudas.length} pizzas, ${this.nombre} con id ${this.idUnico} se pone a esperar.)`);
                 await new Promise((resolve) => {
@@ -36,7 +36,7 @@ Observaciones:
             // Mesa pizzas crudas vacía?
             if (mesaPizzasCrudas.length == 0) {
                 // Horno lleno?
-                if (horno.pizzasCabenEnHorno > horno.pizzasEnHorno.length) {
+                if (horno.pizzasCabenEnHorno >= horno.pizzasEnHorno.length) {
                     horno.pizzasEnHorno.push(this.pizza);
                     console.log(`${this.nombre} ha metido la pizza ${this.pizza.idPizza} en el horno. Hay ${horno.pizzasEnHorno.length} pizzas en el horno y caben ${horno.pizzasCabenEnHorno} pizzas.`);
                     this.pizza = null;
