@@ -1,7 +1,8 @@
     import Pizza from "./Pizza.js";
+    import Mutex from "./Mutex.js";
 
     const MAXIMO_PIZZAS_CRUDAS_ESPERANDO = 3;
-    const colaPizzerosEsperando = [];
+    const turnoMutexCocinea = new Mutex();
 
 /*
 Observaciones:
@@ -23,21 +24,19 @@ Observaciones:
 
         async meter_pizza_en_horno(horno, mesaPizzasCrudas){
             // Mesa pizzas crudas llena?
+            const esperarTurno = await turnoMutexCocinea.lock();    
             if (mesaPizzasCrudas.length >= MAXIMO_PIZZAS_CRUDAS_ESPERANDO) {
-                colaPizzerosEsperando.push(this);
                 console.log(`Como la mesa de pizzas crudas esta llena (caben ${MAXIMO_PIZZAS_CRUDAS_ESPERANDO} y hay ${mesaPizzasCrudas.length} pizzas, ${this.nombre} con id ${this.idUnico} se pone a esperar.)`);
                 await new Promise((resolve) => {
                     this.once("pizzaCrudaMetidaAlHorno", () => {
                         resolve();
                     });
                 });
-                let indiceCocineroEnArray = colaPizzerosEsperando.indexOf(this);
-                colaPizzerosEsperando.splice(indiceCocineroEnArray, 1);
             }
             // Mesa pizzas crudas vacía?
             if (mesaPizzasCrudas.length == 0) {
                 // Horno lleno?
-                if (horno.pizzasCabenEnHorno > horno.pizzasEnHorno.length) {
+                if (horno.pizzasCabenEnHorno >= horno.pizzasEnHorno.length) {
                     horno.pizzasEnHorno.push(this.pizza);
                     console.log(`${this.nombre} ha metido la pizza ${this.pizza.idPizza} en el horno. Hay ${horno.pizzasEnHorno.length} pizzas en el horno y caben ${horno.pizzasCabenEnHorno} pizzas.`);
                     this.pizza = null;
@@ -47,14 +46,16 @@ Observaciones:
                     this.pizza = null;
                 }
             } else {
+                /*
+                Ahora que se ha implementado el Mutex todo este código sobra, de momento lo dejaré hasta terminar de implementar el Mutex y entenderlo al 100%
                 // Los cocineros deben esperar a pizzaCrudaMetidaAlHorno.
                 while (mesaPizzasCrudas.length >= MAXIMO_PIZZAS_CRUDAS_ESPERANDO) {
                     colaPizzerosEsperando.push(this);
                     console.log(`Como ${this.nombre} ve que en la mesa de pizzas crudas hay ${mesaPizzasCrudas.length} y caben ${MAXIMO_PIZZAS_CRUDAS_ESPERANDO} se pone a esperar a que haya hueco.`)
                     await this.esperar(3);
                 }
-                let indiceCocineroEnArray = colaPizzerosEsperando.indexOf(this);
-                colaPizzerosEsperando.splice(indiceCocineroEnArray, 1);
+                */
+               // Se añade la pizza a la mesa de pizzas crudas
                 mesaPizzasCrudas.push(this.pizza);
                 console.log(`Como hay pizzas en la mesa de pizzas crudas, ${this.nombre} ha puesto la pizza ${this.pizza.idPizza} en la mesa de pizzas crudas. Hay ${horno.pizzasEnHorno} pizzas en el horno y caben ${horno.pizzasCabenEnHorno} pizzas.`);
                 this.pizza = null;
